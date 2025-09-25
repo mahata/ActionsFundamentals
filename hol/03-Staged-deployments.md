@@ -1,35 +1,35 @@
-# 🔨 Hands-on: Staged deployments
+# 🔨 ハンズオン: 段階的デプロイメント
 
-In this hands-on lab your will create environments and a staged deployment workflow with approvals.
-> Note: you can only do this on public repos for free accounts. Adding environments for `private` repos is only available for Organizations with a Team account (or higher) and users with GitHub Pro accounts.
+このハンズオンラボでは、環境と承認を含む段階的デプロイメントワークフローを作成します。
+> 注意: 無料アカウントではパブリックリポジトリでのみ実行できます。`プライベート`リポジトリへの環境追加は、Teamアカウント（またはそれ以上）を持つ組織とGitHub Proアカウントを持つユーザーのみ利用可能です。
 
-This hands on lab is based on [My first workflow](01-My-first-workflow.md) and adds the following steps:
-- [Creating and protecting environments](#creating-and-protecting-environments)
-- [Adding a input for picking environments to manual workflow trigger](#adding-a-input-for-picking-environments-to-manual-workflow-trigger)
-- [Chaining workflow steps and conditional execution](#chaining-workflow-steps-and-conditional-execution)
-- [Reviewing and approving deployments](#reviewing-and-approving-deployments)
+このハンズオンラボは[初めてのワークフロー](01-My-first-workflow.md)をベースとし、以下のステップを追加します：
+- [環境の作成と保護](#環境の作成と保護)
+- [手動ワークフロートリガーに環境選択用入力を追加](#手動ワークフロートリガーに環境選択用入力を追加)
+- [ワークフローステップの連鎖と条件実行](#ワークフローステップの連鎖と条件実行)
+- [デプロイメントのレビューと承認](#デプロイメントのレビューと承認)
 
-## Creating and protecting environments
+## 環境の作成と保護
 
-1. Go to [Settings](/../../settings) | [Environments](/../../settings/environments) and click [New environment](/../../settings/environments/new)
-2. Enter the name `Production` and click `Configure environment`
-3. Add yourself as the `Required reviewer` for this environment:
+1. [Settings](/../../settings) | [Environments](/../../settings/environments)に移動し、[New environment](/../../settings/environments/new)をクリックします
+2. 名前に`Production`を入力し、`Configure environment`をクリックします
+3. この環境の`Required reviewer`として自分自身を追加します：
 
 <img width="349" alt="image" src="https://user-images.githubusercontent.com/5276337/174113475-967127de-45a7-4dc9-8477-4de4df62c7e6.png">
 
-4. Only allow the `main`branch to be deployed to this environment:
+4. `main`ブランチのみがこの環境にデプロイできるように許可します：
 
 <img width="350" alt="image" src="https://user-images.githubusercontent.com/5276337/174113782-70a1b18a-0ab9-49fd-a53e-cb2ea78916e1.png">
 
-5. Create two more environments. `Test` and `Load-Test` without any restrictions.
+5. さらに2つの環境を作成します。`Test`と`Load-Test`は制限なしで作成します。
 
-## Adding a input for picking environments to manual workflow trigger
+## 手動ワークフロートリガーに環境選択用入力を追加
 
-Modify the workflow yml file you created in hands on lab 1 ('My first workflow').
-Add an input of the type environment to the `workflow_dispatch` trigger that you created previously.
+ハンズオンラボ1（「初めてのワークフロー」）で作成したワークフローymlファイルを変更します。
+以前に作成した`workflow_dispatch`トリガーに、environment型の入力を追加します。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
   workflow_dispatch:
@@ -42,15 +42,15 @@ Add an input of the type environment to the `workflow_dispatch` trigger that you
 
 </details>
 
-## Chaining workflow steps and conditional execution
+## ワークフローステップの連鎖と条件実行
 
-1. Now add 3 jobs to the workflow file:
-  - Test: runs on `ubuntu-latest` after `Build`. Only runs when the workflow was triggered manually. Runs on the environment `Test`. The job writes `Testing...` to the workflow log.
-  - Load-Test: runs on `ubuntu-latest` after `Build`. Only runs when the workflow was triggered manually. Runs on the environment `Load-Test`. The job writes `Testing...` to the workflow log and sleeps for 15 seconds.
-  - Production: runs on `ubuntu-latest` after `Test` and `Load-Test`. Deploys to the environment `Production` onyl if this was selected as the input parameter. The environment has the URL `https://writeabout.net`. To simulate deployment, the job will execute 5 steps. Each step with writes `Step x deploying...` to the workflow log and sleeps for 10 seconds.
+1. ワークフローファイルに3つのジョブを追加します：
+  - Test: `Build`の後に`ubuntu-latest`で実行。ワークフローが手動でトリガーされた場合のみ実行。環境`Test`で実行。ジョブはワークフローログに`Testing...`を書き込みます。
+  - Load-Test: `Build`の後に`ubuntu-latest`で実行。ワークフローが手動でトリガーされた場合のみ実行。環境`Load-Test`で実行。ジョブはワークフローログに`Testing...`を書き込み、15秒間スリープします。
+  - Production: `Test`と`Load-Test`の後に`ubuntu-latest`で実行。入力パラメータとして選択された場合のみ環境`Production`にデプロイ。環境のURLは`https://writeabout.net`。デプロイメントをシミュレートするため、ジョブは5つのステップを実行。各ステップはワークフローログに`Step x deploying...`を書き込み、10秒間スリープします。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
   Test:
@@ -98,31 +98,30 @@ Add an input of the type environment to the `workflow_dispatch` trigger that you
 
 </details>
 
-2. Trigger the workflow and select `Production` as the environment:
+2. ワークフローをトリガーし、環境として`Production`を選択します：
 
 <img width="212" alt="image" src="https://user-images.githubusercontent.com/5276337/174119722-9b76d479-e355-414b-a534-03d8634536ef.png">
 
-## Reviewing and approving deployments
+## デプロイメントのレビューと承認
 
-1. Open the workflow run and start the review.
+1. ワークフロー実行を開き、レビューを開始します。
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/5276337/174120029-f395e8ec-5e6e-4350-94c5-130caefaafc2.png">
 
-2. And approve it with a comment:
+2. コメントを付けて承認します：
 
 <img width="350" alt="image" src="https://user-images.githubusercontent.com/5276337/174120086-fed98feb-2d7f-476b-a997-1aa099de7d0e.png">
 
-3. Note the progress bar while deploying...
+3. デプロイメント中のプログレスバーに注目してください...
 
 <img width="200" alt="image" src="https://user-images.githubusercontent.com/5276337/174120314-c900585c-6b94-4fc2-8fe9-92452b0cf187.png">
 
-4. The result looks like this and contains the approval and the URL for the production environment:
+4. 結果は次のようになり、承認とプロダクション環境のURLが含まれます：
 
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/5276337/174120381-cef48594-6663-481a-aadd-1ef0dbd50b0a.png">
 
-## Summary
+## まとめ
 
-In this lab you have learned to create and protect environments in GitHub and use them in a workflow. You have also learned to conditionally
-execute jobs or steps and to chain jobs using the `needs` keyword.
+このラボでは、GitHubで環境を作成・保護し、ワークフローで使用する方法を学習しました。また、条件付きでジョブやステップを実行し、`needs`キーワードを使用してジョブを連鎖させる方法も学習しました。
 
-You can continue with the [Reusable workflows](04-Reusable-workflows.md).
+[再利用可能なワークフロー](04-Reusable-workflows.md)に進むことができます。

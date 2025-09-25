@@ -1,50 +1,50 @@
-# 🔨 Hands-on: My first workflow
+# 🔨 ハンズオン: 初めてのワークフロー
 
-In this hands-on lab your will create your first GitHub Actions Workflow and learn how you can use Actions to automate tasks in your software development lifecycle. If you like more background information, please refer to the [GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions) pages on GitHub Docs. Good luck! 👍
+このハンズオンラボでは、初めてのGitHub Actionsワークフローを作成し、ソフトウェア開発ライフサイクルでのタスク自動化にActionsを使用する方法を学習します。より詳しい背景情報については、GitHub Docsの[GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions)ページを参照してください。頑張ってください！ 👍
 
-This hands on lab consists of the following steps:
-- [Creating a repository](#creating-a-repository)
-- [Creating the workflow](#creating-the-workflow)
-- [Viewing your workflow results](#viewing-your-workflow-results)
+このハンズオンラボは以下のステップで構成されています：
+- [リポジトリの作成](#リポジトリの作成)
+- [ワークフローの作成](#ワークフローの作成)
+- [ワークフロー結果の確認](#ワークフロー結果の確認)
 
-## Creating a repository
+## リポジトリの作成
 
-Go to [The ActionsFundamentals repository in the ps-actions-sandbox organization](https://github.com/ps-actions-sandbox/ActionsFundamentals) and click <kbd>Use this template</kbd>:
+[ps-actions-sandbox組織のActionsFundamentalsリポジトリ](https://github.com/ps-actions-sandbox/ActionsFundamentals)にアクセスし、<kbd>Use this template</kbd>をクリックします：
 
 <img width="400" alt="2022-09-18_11-24-58" src="https://user-images.githubusercontent.com/5276337/190895393-6fa0fad9-e05c-4fea-8126-a291b087d663.png">
 
-Select your GitHub user as the owner and name the repository. Leave the repo public to have unlimited action minutes:
+あなたのGitHubユーザーを所有者として選択し、リポジトリに名前を付けます。アクション実行時間を無制限にするため、リポジトリはpublicのままにしておきます：
 
 <img width="400" alt="2022-09-18_11-25-57" src="https://user-images.githubusercontent.com/5276337/190895398-751a1ec9-c1cf-497f-beb7-a6b53d4d911e.png">
 
-Continue now in the new repository.
+新しいリポジトリで続行します。
 
-## Creating the workflow
+## ワークフローの作成
 
-Go to **Actions** | [New Workflow](/../../actions/new) and click on [set up a workflow yourself](/../../new/main?filename=.github%2Fworkflows%2Fmain.yml&workflow_template=blank).
+**Actions** | [New Workflow](/../../actions/new)に移動し、[set up a workflow yourself](/../../new/main?filename=.github%2Fworkflows%2Fmain.yml&workflow_template=blank)をクリックします。
 
-1. Rename the file `main.yml` in the `.github/workflows` directory to `github-actions-demo.yml`.
+1. `.github/workflows`ディレクトリの`main.yml`ファイルを`github-actions-demo.yml`にリネームします。
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/5276337/174096754-4e2d7219-9caf-42e8-bfd9-c190762886d3.png">
 
-2. Remove the template content - we want to create the workflow from scratch.
-3. Click <kbd>Ctrl</kbd>+<kbd>Space</kbd> and select name as the first element:
+2. テンプレートの内容を削除します - ワークフローをゼロから作成したいためです。
+3. <kbd>Ctrl</kbd>+<kbd>Space</kbd>をクリックし、最初の要素としてnameを選択します：
 
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/5276337/174097468-8be92e37-7948-4895-b5ed-20a22c5773bc.png">
 
-4. Set the workflow name to `GitHub Actions Demo`:
+4. ワークフロー名を`GitHub Actions Demo`に設定します：
 
 ```YAML
 name: GitHub Actions Demo
 ```
 
-5. Add the triggers to the worklow with the help of <kbd>Ctrl</kbd>+<kbd>Space</kbd> and the documentation. We want the workflow to trigger:
-  - on every push to the `main` branch, but not when there are changes to files in the `.github` folder.
-  - on every pull request with `main` as the base branch
-  - Every sunday at 6:15 UTC
-  - Manually
+5. <kbd>Ctrl</kbd>+<kbd>Space</kbd>とドキュメントを活用して、ワークフローにトリガーを追加します。ワークフローを以下の条件でトリガーしたいと思います：
+  - `main`ブランチへの全てのプッシュ（ただし、`.github`フォルダ内のファイルに変更がある場合を除く）
+  - `main`をベースブランチとする全てのプルリクエスト
+  - 毎週日曜日のUTC 6:15
+  - 手動実行
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
 on:
@@ -60,13 +60,13 @@ on:
 
 </details>
 
-6. Create a job `Build` that runs on the latest Ubuntu image on GitHub hosted runners. Check the documentation of the [virtual environments](https://github.com/actions/virtual-environments/) what label to use and what version it is. The job should do the following things:
-  - Output the name of the event that triggered the workflow
-  - Output the name of the branch that the repository is currently referencing
-  - List all files in the repository
+6. GitHubホストランナーの最新Ubuntu イメージで実行される`Build`ジョブを作成します。使用するラベルとバージョンについては、[仮想環境](https://github.com/actions/virtual-environments/)のドキュメントを確認してください。ジョブは以下のことを行う必要があります：
+  - ワークフローをトリガーしたイベントの名前を出力
+  - リポジトリが現在参照しているブランチの名前を出力
+  - リポジトリ内の全ファイルをリスト表示
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
 jobs:
@@ -87,36 +87,36 @@ jobs:
 
 </details>
 
-7. Commit the workflow file - and trigger the workflow manually. It should not run automatically if your path filter works. Go to [Action](/../../Actions),  select [GitHub Actions Demo](/../../actions/workflows/github-actions-demo.yml) and `Run workflow`:
+7. ワークフローファイルをコミットし、手動でワークフローをトリガーします。パスフィルターが機能している場合、自動実行されないはずです。[Action](/../../Actions)に移動し、[GitHub Actions Demo](/../../actions/workflows/github-actions-demo.yml)を選択して`Run workflow`をクリックします：
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/5276337/174105162-19f33fd1-8533-4860-9279-88fabec84451.png">
 
 
-## Viewing your workflow results
+## ワークフロー結果の確認
 
-1. Click on your workflow run:
+1. ワークフロー実行をクリックします：
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/5276337/174105747-0e205e0d-37cc-464c-905b-5b29be74fc75.png">
 
-2. Click on the job 'Build':
+2. ジョブ'Build'をクリックします：
 
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/5276337/174105990-a1c204c6-fb7d-44a4-9343-6982899edb25.png">
 
-3. Expand `Set up job` and note the log with the line number (line numbers are links). Check the information about the virtual environment and included software:
+3. `Set up job`を展開し、行番号付きのログを確認します（行番号はリンクです）。仮想環境と含まれるソフトウェアに関する情報を確認します：
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/5276337/174106759-c2a8f933-74cf-42a4-899b-b29dc67eccd7.png">
 
-4. Expand your jobs and check that the output was correct.
+4. ジョブを展開し、出力が正しいことを確認します。
 
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/5276337/174107136-af9187c1-dbee-4109-9ddc-f2abd4830282.png">
 
-5. Verify your other triggers by modifying the [README.md](/README.md) file:
-  - Modify and commit: triggers build (`push`)
-  - Modify and add `[skip ci]` (not triggering the workflow):
+5. [README.md](/README.md)ファイルを変更して、他のトリガーを確認します：
+  - 変更してコミット：ビルドをトリガー（`push`）
+  - 変更して`[skip ci]`を追加（ワークフローをトリガーしない）：
   <img width="350" alt="image" src="https://user-images.githubusercontent.com/5276337/174110845-93d4a38a-9c8a-4336-9b6a-9089ea9a1cfd.png">
 
-  - Modify the [README.md](/README.md) file and create a pull request (trigger: `pull_request`)
+  - [README.md](/README.md)ファイルを変更してプルリクエストを作成（トリガー：`pull_request`）
 
-## Summary
+## まとめ
 
-In this hands-on you've learned to create you first workflow with triggers, jobs, steps, and expressions. Next you will write your [first GitHub Action](02-My-first-action.md).
+このハンズオンでは、トリガー、ジョブ、ステップ、式を使用した初めてのワークフローの作成を学習しました。次に、[初めてのGitHub Action](02-My-first-action.md)を作成します。

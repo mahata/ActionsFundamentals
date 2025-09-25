@@ -1,19 +1,19 @@
-# 🔨 Hands-on: Reusable workflows
+# 🔨 ハンズオン: 再利用可能なワークフロー
 
-In this hands-on lab you will create a [reusable workflow](https://docs.github.com/en/actions/using-workflows/reusing-workflows#creating-a-reusable-workflow) and a workflow that consumes it. You will learn to pass in parameters to the reusable workflow and use output parameters in the consuming workflow.
+このハンズオンラボでは、[再利用可能なワークフロー](https://docs.github.com/en/actions/using-workflows/reusing-workflows#creating-a-reusable-workflow)とそれを利用するワークフローを作成します。再利用可能なワークフローにパラメータを渡し、利用側のワークフローで出力パラメータを使用する方法を学習します。
 
-This hands on lab consists of the following steps:
-- [Creating a reusable workflow](#creating-a-reusable-workflow)
-- [Adding an output parameter](#adding-an-output-parameter)
-- [Consuming the reusable workflow](#consuming-the-reusable-workflow)
+このハンズオンラボは以下のステップで構成されています：
+- [再利用可能なワークフローの作成](#再利用可能なワークフローの作成)
+- [出力パラメータの追加](#出力パラメータの追加)
+- [再利用可能なワークフローの利用](#再利用可能なワークフローの利用)
 
-## Creating a reusable workflow
+## 再利用可能なワークフローの作成
 
-1. Create a [new file](/../../new/main) `.github/workflows/reusable.yml` (paste the file name with the path in the box).
-2. Set the name to `Reusable workflow`.
+1. [新しいファイル](/../../new/main)`.github/workflows/reusable.yml`を作成します（ボックスにパスを含むファイル名をペーストします）。
+2. 名前を`Reusable workflow`に設定します。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
 name: Reusable workflow
@@ -21,10 +21,10 @@ name: Reusable workflow
 
 </details>
 
-3. Add a `workflow_call` trigger with an [input parameter](https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_call) `who-to-greet` of the type `string` that is required. Set the default value to `World`.
+3. `string`型で必須の[入力パラメータ](https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_call)`who-to-greet`を持つ`workflow_call`トリガーを追加します。デフォルト値を`World`に設定します。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
 on:
@@ -39,10 +39,10 @@ on:
 
 </details>
 
-4. Add a job named `reusable-job` that runs on `ubuntu-latest` that echos "Hello <input parameter>" to the console.
+4. `ubuntu-latest`で実行され、コンソールに"Hello <入力パラメータ>"をエコーする`reusable-job`という名前のジョブを追加します。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
 jobs:
@@ -55,13 +55,12 @@ jobs:
 
 </details>
 
-## Adding an output parameter
+## 出力パラメータの追加
 
-1. Add an additional step with the id `time` that uses a workflow command to set an output parameter
-named `current-time` to the current date and time (use `$(date)` for that).
+1. ワークフローコマンドを使用して、現在の日時（`$(date)`を使用）を`current-time`という名前の出力パラメータに設定するid`time`を持つ追加ステップを追加します。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
       - name: Set time
@@ -71,10 +70,10 @@ named `current-time` to the current date and time (use `$(date)` for that).
 
 </details>
 
-2. Add an output called `current-time` to the `reusable-job`.
+2. `reusable-job`に`current-time`という出力を追加します。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
    outputs:
@@ -83,10 +82,10 @@ named `current-time` to the current date and time (use `$(date)` for that).
 
 </details>
 
-3. Add an output parameter called `current-time` to `workflow_call` and set it to the outputs of the workflow command.
+3. `workflow_call`に`current-time`という出力パラメータを追加し、ワークフローコマンドの出力に設定します。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
     outputs:
@@ -99,7 +98,7 @@ named `current-time` to the current date and time (use `$(date)` for that).
 
 
 <details>
-  <summary>Complete Solution</summary>
+  <summary>完全解答</summary>
 
 ```YAML
 name: Reusable workflow
@@ -132,13 +131,13 @@ jobs:
 
 </details>
 
-## Consuming the reusable workflow
+## 再利用可能なワークフローの利用
 
-1. Create a [new file](/../../new/main) `.github/workflows/reuse.yml` (paste the file name with the path in the box).
-2. Set the name to `Reuse other workflow` and add a manual trigger.
+1. [新しいファイル](/../../new/main)`.github/workflows/reuse.yml`を作成します（ボックスにパスを含むファイル名をペーストします）。
+2. 名前を`Reuse other workflow`に設定し、手動トリガーを追加します。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
 name: Reuse other workflow
@@ -148,10 +147,10 @@ on: [workflow_dispatch]
 
 </details>
 
-3. Add a job `call-workflow` that uses the reusable workflow and passes in your user name as an input parameter.
+3. 再利用可能なワークフローを使用し、あなたのユーザー名を入力パラメータとして渡す`call-workflow`ジョブを追加します。
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
 jobs:
@@ -163,10 +162,10 @@ jobs:
 
 </details>
 
-4. Add another job `use-output` that writes the output parameter `current-time` to the console. (Hint: use the needs context to access the output)
+4. 出力パラメータ`current-time`をコンソールに書き込む別のジョブ`use-output`を追加します。（ヒント：出力にアクセスするためにneedsコンテキストを使用します）
 
 <details>
-  <summary>Solution</summary>
+  <summary>解答</summary>
 
 ```YAML
   use-output:
@@ -178,10 +177,10 @@ jobs:
 
 </details>
 
-5. Run the workflow and observe the output.
+5. ワークフローを実行し、出力を確認します。
 
-## Summary
+## まとめ
 
-In this lab you have learned to create a reusable workflow and a workflow that consumes it. You also have learned to pass in parameters to the reusable workflow and to use output parameters in the consuming workflow.
+このラボでは、再利用可能なワークフローとそれを利用するワークフローの作成方法を学習しました。また、再利用可能なワークフローにパラメータを渡し、利用側のワークフローで出力パラメータを使用する方法も学習しました。
 
-You can continue with the [README](../README.md).
+[README](../README.md)に進むことができます。
