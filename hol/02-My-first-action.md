@@ -122,42 +122,6 @@ jobs:
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/5276337/174239255-262a8014-4b66-40df-aa17-6f043f948342.png">
 
-## Optional: Release and use the action
-
-If time permits you can create a release and then use the action in a workflow in another repository.
-
-> **Note**
-> You can only publish a GitHub Action that exists in the root of a repository.
-
-1. Create a new public repository `hello-world-docker-action` and copy all the files from [hello-world-docker-action](../hello-world-docker-action) to it.
-
-2. Create a [new release](/../..releases/new) with a tag `v1` and the title `v1`. Click `Generate release notes` and publish the release.
-
-<img width="600" alt="image" src="https://user-images.githubusercontent.com/5276337/174241482-6d3d0c34-9d55-4e3d-86fa-8ac28055cea8.png">
-
-3. Go to Settings > Actions > General > Access, and ensure `Accessible from repositories owned by the user '<your-github-username>` is selected.
-
-4. Create a new repository or use another existing one and create a simple workflow that calls the action your created in version `v1`.
-
-<details>
-  <summary>Solution</summary>
-
-```YAML
-name: Test
-on: [workflow_dispatch]
-
-jobs:
-  test-action:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Say hello
-        uses: <your-github-username>/hello-world-docker-action@v1
-        with:
-          who-to-greet: '@octocat'
-```
-
-</details>
-
 ## Summary
 
 In this hands-on lab you've learned how to create a docker action, pass in parameters, return values to your workflow, and to test the action locally with a CI build.
