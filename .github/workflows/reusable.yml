@@ -24,6 +24,6 @@ jobs:
 
       - name: Set time
         id: time
-        run: echo "time=$(date)" >> $GITHUB_OUTPUT
+        run: echo "time=$(data)" >> $GITHUB_OUTPUT
 
         
